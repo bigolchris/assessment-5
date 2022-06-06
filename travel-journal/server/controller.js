@@ -251,5 +251,25 @@ module.exports = {
         `)
         .then(dbRes => res.status(200).send(dbRes[0]))
         .catch(err => console.log(err))
+    },
+    getCities:(req, res) => {
+        sequelize.query(`
+        select city_id, c.name as city,rating,country_id co.name
+        as country from cities c 
+        join table countries co
+        on c.country_id = co.country_id
+        order by rating desc;
+        `)
+        .then(dbRes => res.status(200).send(dbRes[0]))
+        .catch(err => console.log(err))
+    },
+    deleteCity:(req, res) => {
+        const { id } = req.params;
+        sequelize.query(`
+        delete from cities
+        where city_id- ${+id}
+        `)
+        .then(dbRes => res.status(200).send(dbRes[0]))
+        .catch(err => console.log(err))
     }
 }
